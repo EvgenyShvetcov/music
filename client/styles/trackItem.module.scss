@@ -1,26 +1,22 @@
-.leftSide {
-  display: flex;
-  align-items: center;
-}
-
 .trackCard {
   padding: 30px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 10px;
-}
-
-.infoColumn {
-  width: 200px;
-  margin-left: 50px;
-}
-
-.artist {
-  font-size: 12;
-  color: gray;
-}
-
-.icon {
-  margin: 0 30px;
+  .leftSide {
+    display: flex;
+    align-items: center;
+  }
+  .infoColumn {
+    width: 200px;
+    margin-left: 50px;
+    .artist {
+      font-size: 12;
+      color: gray;
+    }
+  }
+  .icon {
+    margin: 0 30px;
+  }
 }
