@@ -5,23 +5,28 @@ import { Card, Grid, IconButton } from "@mui/material";
 import { Delete, Pause, PlayArrow } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import { useActions } from "@/hooks/useActions";
+import { useTypedSelector } from "@/hooks/useTypedSelector";
 
 interface TrackItemProps {
   track: Track;
   active?: boolean;
 }
 
-const TrackItem: FC<TrackItemProps> = ({ track, active = false }) => {
+const TrackItem: FC<TrackItemProps> = ({ track }) => {
   const router = useRouter();
   const { playTrack, pauseTrack, setActiveTrack } = useActions();
 
+  const { active, pause } = useTypedSelector((state) => state.player);
+
   const play = (e) => {
-    e.stopPropagation();
-    setActiveTrack(track);
-    playTrack();
-    // if (active) {
-    //   pauseTrack();
-    // }
+    if (pause) {
+      e.stopPropagation();
+      setActiveTrack(track);
+      playTrack();
+    } else {
+      e.stopPropagation();
+      pauseTrack();
+    }
   };
 
   return (
@@ -31,7 +36,7 @@ const TrackItem: FC<TrackItemProps> = ({ track, active = false }) => {
     >
       <div className={styles.leftSide}>
         <IconButton onClick={play} className={styles.icon}>
-          {active ? <Pause /> : <PlayArrow />}
+          {active?._id === track._id && !pause ? <Pause /> : <PlayArrow />}
         </IconButton>
         <img
           width={70}
