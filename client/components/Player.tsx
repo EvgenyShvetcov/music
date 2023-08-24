@@ -35,7 +35,7 @@ const Player = () => {
     if (active) {
       audio.src = "http://localhost:8000/" + active.audio;
       audio.volume = volume / 100;
-      audio.onloadmetadata = () => {
+      audio.onloadedmetadata = () => {
         setDuration(Math.ceil(audio.duration));
       };
       audio.ontimeupdate = () => {
