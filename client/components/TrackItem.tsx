@@ -19,9 +19,9 @@ const TrackItem: FC<TrackItemProps> = ({ track, active = false }) => {
     e.stopPropagation();
     setActiveTrack(track);
     playTrack();
-    if (active) {
-      pauseTrack();
-    }
+    // if (active) {
+    //   pauseTrack();
+    // }
   };
 
   return (
@@ -33,7 +33,11 @@ const TrackItem: FC<TrackItemProps> = ({ track, active = false }) => {
         <IconButton onClick={play} className={styles.icon}>
           {active ? <Pause /> : <PlayArrow />}
         </IconButton>
-        <img width={70} height={70} src={track.picture} />
+        <img
+          width={70}
+          height={70}
+          src={"http://localhost:8000/" + track.picture}
+        />
         <Grid container direction="column" className={styles.infoColumn}>
           <div className={styles.name}>{track.name}</div>
           <div className={styles.artist}>{track.artist}</div>

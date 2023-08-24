@@ -5,48 +5,62 @@ import { Button, Card, Grid } from "@mui/material";
 import { useRouter } from "next/router";
 import { Track } from "@/types/track";
 import TrackList from "@/components/TrackList";
+import { useTypedSelector } from "@/hooks/useTypedSelector";
+import { NextThunkDispatch, wrapper } from "@/store";
+import { fetchTracks } from "@/store/action-creators/track";
+import { GetServerSideProps } from "next";
 
 const Tracks = () => {
   const router = useRouter();
 
-  const tracks: Track[] = [
-    {
-      _id: "1",
-      name: "wu",
-      artist: "wu",
-      text: "wu",
-      listens: 0,
-      audio:
-        "http://localhost:8000/audio/0400932a-9318-43d9-912e-e2380a638f78.mp3",
-      picture:
-        "https://i.guim.co.uk/img/media/1a0edf67de989b7897d6758767bf1a4ef43d3527/0_622_3000_1800/master/3000.jpg?width=1300&dpr=1&s=none",
-      comments: [],
-    },
-    {
-      _id: "2",
-      name: "mobb",
-      artist: "mobb",
-      text: "mobb",
-      listens: 0,
-      audio:
-        "http://localhost:8000/audio/0400932a-9318-43d9-912e-e2380a638f78.mp3",
-      picture:
-        "https://i.guim.co.uk/img/media/1a0edf67de989b7897d6758767bf1a4ef43d3527/0_622_3000_1800/master/3000.jpg?width=1300&dpr=1&s=none",
-      comments: [],
-    },
-    {
-      _id: "3",
-      name: "2pac",
-      artist: "2pac",
-      text: "2pac",
-      listens: 0,
-      audio:
-        "http://localhost:8000/audio/0400932a-9318-43d9-912e-e2380a638f78.mp3",
-      picture:
-        "https://i.guim.co.uk/img/media/1a0edf67de989b7897d6758767bf1a4ef43d3527/0_622_3000_1800/master/3000.jpg?width=1300&dpr=1&s=none",
-      comments: [],
-    },
-  ];
+  const { error, tracks } = useTypedSelector((state) => state.track);
+
+  // const tracks: Track[] = [
+  //   {
+  //     _id: "1",
+  //     name: "wu",
+  //     artist: "wu",
+  //     text: "wu",
+  //     listens: 0,
+  //     audio:
+  //       "http://localhost:8000/audio/0400932a-9318-43d9-912e-e2380a638f78.mp3",
+  //     picture:
+  //       "https://i.guim.co.uk/img/media/1a0edf67de989b7897d6758767bf1a4ef43d3527/0_622_3000_1800/master/3000.jpg?width=1300&dpr=1&s=none",
+  //     comments: [],
+  //   },
+  //   {
+  //     _id: "2",
+  //     name: "mobb",
+  //     artist: "mobb",
+  //     text: "mobb",
+  //     listens: 0,
+  //     audio:
+  //       "http://localhost:8000/audio/0400932a-9318-43d9-912e-e2380a638f78.mp3",
+  //     picture:
+  //       "https://i.guim.co.uk/img/media/1a0edf67de989b7897d6758767bf1a4ef43d3527/0_622_3000_1800/master/3000.jpg?width=1300&dpr=1&s=none",
+  //     comments: [],
+  //   },
+  //   {
+  //     _id: "3",
+  //     name: "2pac",
+  //     artist: "2pac",
+  //     text: "2pac",
+  //     listens: 0,
+  //     audio:
+  //       "http://localhost:8000/audio/0400932a-9318-43d9-912e-e2380a638f78.mp3",
+  //     picture:
+  //       "https://i.guim.co.uk/img/media/1a0edf67de989b7897d6758767bf1a4ef43d3527/0_622_3000_1800/master/3000.jpg?width=1300&dpr=1&s=none",
+  //     comments: [],
+  //   },
+  // ];
+
+  if (error) {
+    return (
+      <MainLayout>
+        <h1>{error}</h1>
+      </MainLayout>
+    );
+  }
 
   return (
     <MainLayout>
@@ -68,3 +82,17 @@ const Tracks = () => {
 };
 
 export default Tracks;
+
+// export const getServerSideProps = wrapper.getServerSideProps(
+//   (store) =>
+//     async ({ req, res }) => {
+//       await store.dispatch();
+//     });
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) =>
+    async ({ req, res }) => {
+      const dispatch = store.dispatch as NextThunkDispatch;
+      await dispatch(await fetchTracks());
+    }
+);

@@ -25,8 +25,6 @@ const Player = () => {
   useEffect(() => {
     if (!audio) {
       audio = new Audio();
-      // audio.src =
-      //   "http://localhost:8000/audio/0400932a-9318-43d9-912e-e2380a638f78.mp3";
     } else {
       setAudio();
       play();
@@ -35,7 +33,7 @@ const Player = () => {
 
   const setAudio = () => {
     if (active) {
-      audio.src = active.audio;
+      audio.src = "http://localhost:8000/" + active.audio;
       audio.volume = volume / 100;
       audio.onloadmetadata = () => {
         setDuration(Math.ceil(audio.duration));
