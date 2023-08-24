@@ -53,6 +53,19 @@ export default function SwipeableTemporaryDrawer() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
+        <ListItem
+          key={"Закрыть панель"}
+          disablePadding
+          onClick={() => toggleDrawer(anchor, false)}
+        >
+          <ListItemButton>
+            <ListItemIcon>
+              <MailIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Закрыть панель"} />
+          </ListItemButton>
+        </ListItem>
+        <Divider />
         {menuItems.map(({ href, text }, index) => (
           <ListItem key={text} disablePadding onClick={() => router.push(href)}>
             <ListItemButton>

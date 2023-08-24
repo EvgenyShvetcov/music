@@ -1,0 +1,31 @@
+.trackItem {
+  margin: 10px;
+  padding: 10px;
+}
+
+.leftSide {
+  display: flex;
+  align-items: center;
+}
+
+.trackCard {
+  width: 100%;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.infoColumn {
+  width: 200px;
+  margin-left: 50px;
+}
+
+.artist {
+  font-size: 12;
+  color: gray;
+}
+
+.icon {
+  margin: 0 30px;
+}
