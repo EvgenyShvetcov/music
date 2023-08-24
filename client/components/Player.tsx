@@ -1,36 +1,93 @@
 import { Pause, PlayArrow, VolumeUp } from "@mui/icons-material";
 import { Grid, IconButton } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "../styles/player.module.scss";
 import { Track } from "@/types/track";
 import TrackProgress from "./TrackProgrss";
+import { useTypedSelector } from "@/hooks/useTypedSelector";
+import { useActions } from "@/hooks/useActions";
+
+let audio: any;
 
 const Player = () => {
-  const active = false;
+  const { active, currentTime, duration, pause, volume } = useTypedSelector(
+    (state) => state.player
+  );
+  const {
+    pauseTrack,
+    playTrack,
+    setActiveTrack,
+    setCurrentTime,
+    setDuration,
+    setVolume,
+  } = useActions();
 
-  const track: Track = {
-    _id: "1",
-    name: "wu",
-    artist: "wu",
-    text: "wu",
-    listens: 0,
-    audio: "",
-    picture:
-      "https://i.guim.co.uk/img/media/1a0edf67de989b7897d6758767bf1a4ef43d3527/0_622_3000_1800/master/3000.jpg?width=1300&dpr=1&s=none",
-    comments: [],
+  useEffect(() => {
+    if (!audio) {
+      audio = new Audio();
+      // audio.src =
+      //   "http://localhost:8000/audio/0400932a-9318-43d9-912e-e2380a638f78.mp3";
+    } else {
+      setAudio();
+      play();
+    }
+  }, [active]);
+
+  const setAudio = () => {
+    if (active) {
+      audio.src = active.audio;
+      audio.volume = volume / 100;
+      audio.onloadmetadata = () => {
+        setDuration(Math.ceil(audio.duration));
+      };
+      audio.ontimeupdate = () => {
+        setCurrentTime(Math.ceil(audio.currentTime));
+      };
+    }
   };
+
+  const play = () => {
+    if (pause) {
+      playTrack();
+      audio.play();
+    } else {
+      pauseTrack();
+      audio.pause();
+    }
+  };
+
+  const changeVolume = (e) => {
+    audio.volume = Number(e.target.value) / 100;
+    setVolume(Number(e.target.value));
+  };
+
+  const changeCurrentTime = (e) => {
+    audio.currentTime = Number(e.target.value);
+    setCurrentTime(Number(e.target.value));
+  };
+
+  console.log(pause);
+
+  if (!active) {
+    return null;
+  }
+
   return (
     <div className={styles.player}>
-      <IconButton onClick={() => {}}>
-        {active ? <PlayArrow /> : <Pause />}
+      <IconButton onClick={play}>
+        {pause ? <PlayArrow /> : <Pause />}
       </IconButton>
       <Grid container direction="column" className="playerInfo">
-        <div>{track.name}</div>
-        <div style={{ fontSize: 12, color: "gray" }}>{track.artist}</div>
+        <div>{active?.name}</div>
+        <div style={{ fontSize: 12, color: "gray" }}>{active?.artist}</div>
       </Grid>
-      <TrackProgress left={1} right={100} onChange={() => {}} />
+      <TrackProgress
+        left={currentTime}
+        right={duration}
+        onChange={changeCurrentTime}
+      />
       <VolumeUp className="icon" />
-      <TrackProgress left={1} right={100} onChange={() => {}} />
+      <TrackProgress left={volume} right={100} onChange={changeVolume} />
     </div>
   );
 };

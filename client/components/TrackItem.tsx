@@ -4,6 +4,7 @@ import { Track } from "@/types/track";
 import { Card, Grid, IconButton } from "@mui/material";
 import { Delete, Pause, PlayArrow } from "@mui/icons-material";
 import { useRouter } from "next/router";
+import { useActions } from "@/hooks/useActions";
 
 interface TrackItemProps {
   track: Track;
@@ -12,16 +13,24 @@ interface TrackItemProps {
 
 const TrackItem: FC<TrackItemProps> = ({ track, active = false }) => {
   const router = useRouter();
+  const { playTrack, pauseTrack, setActiveTrack } = useActions();
+
+  const play = (e) => {
+    e.stopPropagation();
+    setActiveTrack(track);
+    playTrack();
+    if (active) {
+      pauseTrack();
+    }
+  };
+
   return (
     <Card
       className={styles.trackCard}
       onClick={() => router.push("/tracks/" + track._id)}
     >
       <div className={styles.leftSide}>
-        <IconButton
-          onClick={(e) => e.stopPropagation()}
-          className={styles.icon}
-        >
+        <IconButton onClick={play} className={styles.icon}>
           {active ? <Pause /> : <PlayArrow />}
         </IconButton>
         <img width={70} height={70} src={track.picture} />
