@@ -1,12 +1,13 @@
+"use client";
 import React, { useState } from "react";
-import styles from "../../styles/create.module.scss";
-import MainLayout from "@/layouts/MainLayout";
+import styles from "../../../styles/create.module.scss";
 import StepWrapper from "@/components/StepWrapper";
 import { Button, Grid, TextField } from "@mui/material";
 import FileUpload from "@/components/FileUpload";
 import { Track } from "@/types/track";
 import axios from "axios";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+import MainLayout from "@/app/layout";
 
 const Create = () => {
   const router = useRouter();

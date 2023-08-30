@@ -1,11 +1,13 @@
+"use client";
 import React, { FC } from "react";
 import styles from "../styles/trackItem.module.scss";
 import { Track } from "@/types/track";
 import { Card, Grid, IconButton } from "@mui/material";
 import { Delete, Pause, PlayArrow } from "@mui/icons-material";
-import { useRouter } from "next/router";
-import { useActions } from "@/hooks/useActions";
-import { useTypedSelector } from "@/hooks/useTypedSelector";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { setActive, setPause, setPlay } from "@/redux/slices/player";
 
 interface TrackItemProps {
   track: Track;
@@ -14,18 +16,20 @@ interface TrackItemProps {
 
 const TrackItem: FC<TrackItemProps> = ({ track }) => {
   const router = useRouter();
-  const { playTrack, pauseTrack, setActiveTrack } = useActions();
+  const player = useAppSelector((state) => state.player);
+  const dispatch = useAppDispatch();
 
-  const { active, pause } = useTypedSelector((state) => state.player);
-
-  const play = (e) => {
-    if (pause) {
+  const play = (e: any) => {
+    if (player.pause) {
       e.stopPropagation();
-      setActiveTrack(track);
-      playTrack();
+      dispatch(setPlay());
+      dispatch(setActive(track));
+      // setActiveTrack(track);
+      // playTrack();
     } else {
       e.stopPropagation();
-      pauseTrack();
+      dispatch(setPause());
+      // pauseTrack();
     }
   };
 
@@ -36,9 +40,14 @@ const TrackItem: FC<TrackItemProps> = ({ track }) => {
     >
       <div className={styles.leftSide}>
         <IconButton onClick={play} className={styles.icon}>
-          {active?._id === track._id && !pause ? <Pause /> : <PlayArrow />}
+          {player.active?._id === track._id && !player.pause ? (
+            <Pause />
+          ) : (
+            <PlayArrow />
+          )}
         </IconButton>
-        <img
+        <Image
+          alt="img"
           width={70}
           height={70}
           src={"http://localhost:8000/" + track.picture}
@@ -49,7 +58,7 @@ const TrackItem: FC<TrackItemProps> = ({ track }) => {
         </Grid>
       </div>
 
-      {active && <div>01:42 / 03:33</div>}
+      {player.active && <div>01:42 / 03:33</div>}
       <IconButton onClick={(e) => e.stopPropagation()} className={styles.icon}>
         <Delete />
       </IconButton>

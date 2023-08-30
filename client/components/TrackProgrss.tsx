@@ -1,9 +1,10 @@
+"use client";
 import React from "react";
 
 interface Props {
   left: number;
   right: number;
-  onChange: (e) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const TrackProgress: React.FC<Props> = ({ left, right, onChange }) => {

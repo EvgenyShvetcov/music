@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../styles/index.module.scss";
-import MainLayout from "@/layouts/MainLayout";
+import MainLayout from "./layout";
 
 const Index = () => {
   return (

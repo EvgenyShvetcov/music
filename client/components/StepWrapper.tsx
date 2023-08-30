@@ -1,3 +1,4 @@
+"use client";
 import { Card, Container, Grid, Step, StepLabel } from "@mui/material";
 import Stepper from "@mui/material/Stepper";
 import React, { FC } from "react";
