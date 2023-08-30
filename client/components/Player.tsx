@@ -16,17 +16,6 @@ import {
 let audio: any;
 
 const Player = () => {
-  // const { active, currentTime, duration, pause, volume } = useTypedSelector(
-  //   (state) => state.player
-  // );
-  // const {
-  //   pauseTrack,
-  //   playTrack,
-  //   setActiveTrack,
-  //   setCurrentTime,
-  //   setDuration,
-  //   setVolume,
-  // } = useActions();
   const player = useAppSelector((state) => state.player);
   const dispatch = useAppDispatch();
 
@@ -45,11 +34,9 @@ const Player = () => {
       audio.volume = player.volume / 100;
       audio.onloadedmetadata = () => {
         dispatch(setDuration(audio.duration));
-        // setDuration(Math.ceil(audio.duration));
       };
       audio.ontimeupdate = () => {
         dispatch(setCurrentTime(audio.currentTime));
-        // setCurrentTime(Math.ceil(audio.currentTime));
       };
     }
   };
@@ -57,11 +44,9 @@ const Player = () => {
   const play = () => {
     if (player.pause) {
       dispatch(setPlay());
-      // playTrack();
       audio.play();
     } else {
       dispatch(setPause());
-      // pauseTrack();
       audio.pause();
     }
   };
@@ -69,7 +54,6 @@ const Player = () => {
   const changeVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
     audio.volume = Number(e.target.value) / 100;
     dispatch(setVolume(Number(e.target.value)));
-    // setVolume(Number(e.target.value));
   };
 
   const changeCurrentTime = (e: React.ChangeEvent<HTMLInputElement>) => {

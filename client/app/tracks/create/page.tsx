@@ -7,7 +7,6 @@ import FileUpload from "@/components/FileUpload";
 import { Track } from "@/types/track";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import MainLayout from "@/app/layout";
 
 const Create = () => {
   const router = useRouter();
@@ -44,7 +43,7 @@ const Create = () => {
   console.log(info);
 
   return (
-    <MainLayout>
+    <>
       <StepWrapper activeStep={activeStep}>
         {activeStep === 0 && (
           <Grid container direction="column" className={styles.step1Container}>
@@ -88,7 +87,7 @@ const Create = () => {
         </Button>
         <Button onClick={next}>Далее</Button>
       </Grid>
-    </MainLayout>
+    </>
   );
 };
 

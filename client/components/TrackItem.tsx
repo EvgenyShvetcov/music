@@ -24,12 +24,9 @@ const TrackItem: FC<TrackItemProps> = ({ track }) => {
       e.stopPropagation();
       dispatch(setPlay());
       dispatch(setActive(track));
-      // setActiveTrack(track);
-      // playTrack();
     } else {
       e.stopPropagation();
       dispatch(setPause());
-      // pauseTrack();
     }
   };
 

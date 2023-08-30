@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import styles from "../../../styles/trackPage.module.scss";
 import React from "react";
 import Image from "next/image";
-import MainLayout from "@/app/layout";
 
 const TrackPage = () => {
   const router = useRouter();
@@ -16,12 +15,11 @@ const TrackPage = () => {
     text: "wu",
     listens: 0,
     audio: "",
-    picture:
-      "https://i.guim.co.uk/img/media/1a0edf67de989b7897d6758767bf1a4ef43d3527/0_622_3000_1800/master/3000.jpg?width=1300&dpr=1&s=none",
+    picture: "",
     comments: [],
   };
   return (
-    <MainLayout>
+    <>
       <Button variant="outlined" onClick={() => router.push("/tracks")}>
         К списку
       </Button>
@@ -49,7 +47,7 @@ const TrackPage = () => {
           </div>
         ))}
       </div>
-    </MainLayout>
+    </>
   );
 };
 
