@@ -28,10 +28,6 @@ const Player = () => {
     }
   }, [player.active]);
 
-  const timeConvert = (number: number) => {
-    return;
-  };
-
   const setAudio = () => {
     if (player.active) {
       audio.src = "http://localhost:8000/" + player.active.audio;

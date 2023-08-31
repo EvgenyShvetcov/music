@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setActive, setPause, setPlay } from "@/redux/slices/player";
 import { audio } from "./Player";
 import Link from "next/link";
+import { createApi } from "@/api/api";
 
 interface TrackItemProps {
   track: Track;
@@ -56,7 +57,10 @@ const TrackItem: FC<TrackItemProps> = ({ track }) => {
       </div>
 
       <Link href={"/tracks/" + track._id}> Подробнее</Link>
-      <IconButton onClick={(e) => e.stopPropagation()} className={styles.icon}>
+      <IconButton
+        onClick={() => createApi().deleteTrack(track._id)}
+        className={styles.icon}
+      >
         <Delete />
       </IconButton>
     </Card>

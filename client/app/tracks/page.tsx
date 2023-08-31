@@ -1,18 +1,9 @@
 import React from "react";
 import TracksComponent from "@/components/TracksComponent";
-import axios from "axios";
-
-async function getData() {
-  try {
-    const res = await axios.get("http://localhost:8000/tracks");
-    return res.data;
-  } catch (error) {
-    console.log("Ошибка");
-  }
-}
+import { createApi } from "@/api/api";
 
 async function Tracks() {
-  const tracks = await getData();
+  const tracks = await createApi().getTracks();
 
   return (
     <div>
