@@ -14,7 +14,6 @@ export function createApi() {
           cache: "no-cache",
           method: "GET",
         });
-        console.log(responce);
 
         return responce.json();
       } catch (e) {
