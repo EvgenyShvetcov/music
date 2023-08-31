@@ -15,10 +15,13 @@ export const PlayerSlice = createSlice({
   initialState,
   reducers: {
     setPause: (state) => {
-      state = { ...state, pause: true };
+      state.pause = true;
     },
     setPlay: (state) => {
-      state = { ...state, pause: false };
+      state.pause = false;
+    },
+    setSwitchPlayOrPause: (state) => {
+      state.pause = !state.pause;
     },
     setCurrentTime: (state, action: PayloadAction<number>) => {
       state.currentTime = action.payload;

@@ -1,7 +1,7 @@
 "use client";
 import { Pause, PlayArrow, VolumeUp } from "@mui/icons-material";
 import { Grid, IconButton } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import styles from "../styles/player.module.scss";
 import TrackProgress from "./TrackProgrss";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -13,7 +13,7 @@ import {
   setVolume,
 } from "@/redux/slices/player";
 
-let audio: any;
+export let audio: any;
 
 const Player = () => {
   const player = useAppSelector((state) => state.player);
@@ -28,18 +28,24 @@ const Player = () => {
     }
   }, [player.active]);
 
+  const timeConvert = (number: number) => {
+    return;
+  };
+
   const setAudio = () => {
     if (player.active) {
       audio.src = "http://localhost:8000/" + player.active.audio;
       audio.volume = player.volume / 100;
       audio.onloadedmetadata = () => {
-        dispatch(setDuration(audio.duration));
+        dispatch(setDuration(Math.ceil(audio.duration)));
       };
       audio.ontimeupdate = () => {
-        dispatch(setCurrentTime(audio.currentTime));
+        dispatch(setCurrentTime(Math.ceil(audio.currentTime)));
       };
     }
   };
+
+  console.log(player);
 
   const play = () => {
     if (player.pause) {
@@ -50,7 +56,6 @@ const Player = () => {
       audio.pause();
     }
   };
-
   const changeVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
     audio.volume = Number(e.target.value) / 100;
     dispatch(setVolume(Number(e.target.value)));
